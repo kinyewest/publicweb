@@ -61,23 +61,21 @@
             border-radius: 50px;
             display: flex;
             align-items: center;
-            gap: 0; /* Gap managed by expansion */
+            justify-content: space-between;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             
-            /* Initial Compact State */
-            width: 80px; 
+            /* Compact State: Visible pfp and discord */
+            width: 110px; 
             overflow: hidden;
-            transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        gap 0.5s ease, 
+            transition: width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
                         padding 0.5s ease;
             white-space: nowrap;
             cursor: pointer;
         }
 
         .navbar:hover {
-            width: 420px; /* Expands to show text */
-            gap: 20px;
+            width: 480px; /* Expands to show links */
             padding: 10px 25px;
         }
 
@@ -86,11 +84,12 @@
             height: 30px;
             border-radius: 50%;
             flex-shrink: 0;
-            transition: transform 0.5s ease;
+            transition: transform 0.6s ease;
         }
 
         .navbar:hover .nav-logo { transform: rotate(360deg); }
 
+        /* Links hidden by default, slide in on hover */
         .nav-links {
             display: flex;
             gap: 20px;
@@ -98,15 +97,19 @@
             margin: 0;
             padding: 0;
             opacity: 0;
-            transform: translateX(-20px);
-            transition: opacity 0.3s ease, transform 0.4s ease;
+            width: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.4s ease, width 0.6s ease;
             pointer-events: none;
+            overflow: hidden;
         }
 
         .navbar:hover .nav-links {
             opacity: 1;
-            transform: translateX(0);
+            width: auto;
+            transform: translateY(0);
             pointer-events: auto;
+            margin: 0 20px;
         }
 
         .nav-item {
@@ -123,15 +126,17 @@
         }
 
         .discord-icon {
-            margin-left: auto;
             flex-shrink: 0;
             display: flex;
             align-items: center;
-            color: var(--text-muted);
-            transition: color 0.3s ease;
+            color: var(--text-main);
+            transition: transform 0.3s ease, filter 0.3s ease;
         }
 
-        .navbar:hover .discord-icon { color: white; }
+        .navbar:hover .discord-icon {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 5px var(--accent-glow));
+        }
 
         /* 3. Main Content & Animations */
         @keyframes float {
