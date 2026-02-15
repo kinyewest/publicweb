@@ -3,36 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>bolt</title>
+    <title>bolt | active</title>
     <style>
         :root {
-            /* More vibrant palette for a noticeable background */
-            --bg-1: #0f1218;
+            --bg-1: #080a0f;
             --bg-2: #1a1e26;
-            --bg-3: #2d344d; /* Hint of deep blue */
-            --bg-4: #1c142e; /* Hint of deep purple */
+            --bg-3: #3b4471; 
+            --bg-4: #2b1c4e; 
+            --accent-glow: rgba(114, 137, 218, 0.6);
             --text-main: #ffffff;
             --text-muted: #b0b0b0;
-            --btn-bg: rgba(255, 255, 255, 0.08);
-            --btn-border: rgba(255, 255, 255, 0.12);
         }
 
-        /* Faster Hyper-Gradient Background */
+        /* 1. Ultra-Dynamic Background */
         body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100vh;
-            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            font-family: 'Inter', sans-serif;
             color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            background: linear-gradient(-45deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-4), var(--bg-1));
-            background-size: 350% 350%;
-            /* Speed increased to 5 seconds for constant noticeable movement */
-            animation: hyperFlow 5s ease-in-out infinite;
+            background: linear-gradient(-45deg, var(--bg-1), var(--bg-4), var(--bg-3), var(--bg-2));
+            background-size: 400% 400%;
+            animation: hyperFlow 4s ease-in-out infinite, bgPulse 10s ease-in-out infinite;
         }
 
         @keyframes hyperFlow {
@@ -41,160 +38,122 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Page Load Entrance */
-        @keyframes reveal {
-            from { opacity: 0; transform: translateY(15px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        @keyframes bgPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* 2. Floating UI Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .main-wrapper {
+            animation: float 5s ease-in-out infinite;
+            text-align: center;
+            z-index: 10;
+        }
+
+        /* 3. Text Glow & Shimmer */
+        .brand {
+            font-size: 6rem;
+            font-weight: 900;
+            letter-spacing: -5px;
+            margin: 0;
+            background: linear-gradient(90deg, #fff, #7289da, #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* 4. Staggered Entrance */
+        @keyframes revealPop {
+            0% { opacity: 0; transform: scale(0.8) translateY(30px); filter: blur(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
         }
 
         .animate {
             opacity: 0;
-            animation: reveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation: revealPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        .delay-nav { animation-delay: 0.1s; }
-        .delay-hero { animation-delay: 0.25s; }
-        .delay-stats { animation-delay: 0.4s; }
-        .delay-btns { animation-delay: 0.55s; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
 
-        /* Navbar */
-        .nav-wrapper {
-            position: absolute;
-            top: 40px;
-            width: 100%;
+        /* Buttons with Hover Ripple */
+        .btn-group {
             display: flex;
             justify-content: center;
+            gap: 25px;
+            margin-top: 20px;
         }
 
-        .top-nav {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(25px);
-            padding: 10px 24px;
-            border-radius: 40px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            border: 1px solid var(--btn-border);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-        }
-
-        .top-nav img {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-        }
-
-        .nav-link {
-            color: var(--text-muted);
+        .btn {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            border-radius: 20px;
+            color: white;
             text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: 0.2s ease;
+            font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
         }
 
-        .nav-link:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .btn:hover {
+            transform: scale(1.1) rotate(1deg);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent-glow);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
 
-        /* Main Content */
-        .container { text-align: center; z-index: 10; }
+        /* Avatar Rotation */
+        .pfp {
+            width: 140px;
+            height: 140px;
+            border-radius: 35px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .pfp:hover {
+            transform: rotate(10deg) scale(1.1);
+        }
 
         .hero {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 30px;
+            justify-content: center;
             margin-bottom: 20px;
         }
-
-        .pfp {
-            width: 130px;
-            height: 130px;
-            border-radius: 28px;
-            object-fit: cover;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .brand {
-            font-size: 5.5rem;
-            font-weight: 900;
-            letter-spacing: -4px;
-            color: #ffffff;
-            margin: 0;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
-        }
-
-        .stats {
-            color: var(--text-muted);
-            font-size: 1.15rem;
-            margin-bottom: 50px;
-            font-weight: 300;
-        }
-
-        .stats b { color: #fff; font-weight: 700; }
-
-        /* Buttons */
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .btn {
-            background: var(--btn-bg);
-            color: var(--text-main);
-            padding: 18px 36px;
-            border-radius: 16px;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: 1px solid var(--btn-border);
-            backdrop-filter: blur(5px);
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        .btn svg { width: 22px; height: 22px; }
     </style>
 </head>
 <body>
 
-    <div class="nav-wrapper animate delay-nav">
-        <nav class="top-nav">
-            <img src="pfp.png" alt="logo">
-            <a href="#" class="nav-link">Commands</a>
-            <a href="#" class="nav-link">Status</a>
-            <a href="#" class="nav-link">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.196.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.076.076 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-            </a>
-        </nav>
-    </div>
-
-    <div class="container">
-        <div class="hero animate delay-hero">
+    <div class="main-wrapper">
+        <div class="hero animate delay-1">
             <img src="pfp.png" alt="bolt" class="pfp">
             <h1 class="brand">bolt</h1>
         </div>
 
-        <p class="stats animate delay-stats">Sustaining <b>412</b> users across <b>4</b> guilds.</p>
+        <p class="stats animate delay-2" style="font-size: 1.2rem; color: var(--text-muted);">
+            Sustaining <b style="color:white">412</b> users across <b style="color:white">4</b> guilds.
+        </p>
 
-        <div class="btn-group animate delay-btns">
-            <a href="#" class="btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                Invite
-            </a>
-            <a href="#" class="btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
-                View Commands
-            </a>
+        <div class="btn-group animate delay-3">
+            <a href="#" class="btn">Invite Bot</a>
+            <a href="#" class="btn">Commands</a>
         </div>
     </div>
 
