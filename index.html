@@ -6,15 +6,18 @@
     <title>bolt</title>
     <style>
         :root {
-            --bg-dark: #16191e;
-            --bg-accent: #2c313c;
+            /* More vibrant palette for a noticeable background */
+            --bg-1: #0f1218;
+            --bg-2: #1a1e26;
+            --bg-3: #2d344d; /* Hint of deep blue */
+            --bg-4: #1c142e; /* Hint of deep purple */
             --text-main: #ffffff;
-            --text-muted: #a0a0a0;
-            --btn-bg: rgba(255, 255, 255, 0.07);
-            --btn-border: rgba(255, 255, 255, 0.1);
+            --text-muted: #b0b0b0;
+            --btn-bg: rgba(255, 255, 255, 0.08);
+            --btn-border: rgba(255, 255, 255, 0.12);
         }
 
-        /* Faster, more vibrant animated background */
+        /* Faster Hyper-Gradient Background */
         body {
             margin: 0;
             padding: 0;
@@ -26,39 +29,33 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            /* Added a touch of deep blue/purple for better depth */
-            background: linear-gradient(-45deg, #16191e, #23272f, #2c313c, #1a1d23);
-            background-size: 300% 300%;
-            animation: gradientMove 8s ease-in-out infinite;
+            background: linear-gradient(-45deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-4), var(--bg-1));
+            background-size: 350% 350%;
+            /* Speed increased to 5 seconds for constant noticeable movement */
+            animation: hyperFlow 5s ease-in-out infinite;
         }
 
-        @keyframes gradientMove {
+        @keyframes hyperFlow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* Entrance Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Page Load Entrance */
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(15px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .animate {
             opacity: 0;
-            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation: reveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.3s; }
-        .delay-3 { animation-delay: 0.5s; }
-        .delay-4 { animation-delay: 0.7s; }
+        .delay-nav { animation-delay: 0.1s; }
+        .delay-hero { animation-delay: 0.25s; }
+        .delay-stats { animation-delay: 0.4s; }
+        .delay-btns { animation-delay: 0.55s; }
 
         /* Navbar */
         .nav-wrapper {
@@ -70,15 +67,15 @@
         }
 
         .top-nav {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(25px);
             padding: 10px 24px;
-            border-radius: 30px;
+            border-radius: 40px;
             display: flex;
             align-items: center;
             gap: 20px;
             border: 1px solid var(--btn-border);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
         }
 
         .top-nav img {
@@ -92,50 +89,48 @@
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 500;
-            transition: all 0.2s;
+            transition: 0.2s ease;
         }
 
-        .nav-link:hover { color: var(--text-main); transform: scale(1.05); }
+        .nav-link:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
 
         /* Main Content */
-        .container {
-            text-align: center;
-            z-index: 1;
-        }
+        .container { text-align: center; z-index: 10; }
 
         .hero {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 28px;
-            margin-bottom: 25px;
+            gap: 30px;
+            margin-bottom: 20px;
         }
 
         .pfp {
-            width: 120px;
-            height: 120px;
-            border-radius: 24px;
+            width: 130px;
+            height: 130px;
+            border-radius: 28px;
             object-fit: cover;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .brand {
-            font-size: 5rem;
-            font-weight: 800;
-            letter-spacing: -3px;
+            font-size: 5.5rem;
+            font-weight: 900;
+            letter-spacing: -4px;
             color: #ffffff;
             margin: 0;
-            text-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
         }
 
         .stats {
             color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 45px;
-            letter-spacing: 0.5px;
+            font-size: 1.15rem;
+            margin-bottom: 50px;
+            font-weight: 300;
         }
 
-        .stats b { color: #fff; font-weight: 600; }
+        .stats b { color: #fff; font-weight: 700; }
 
         /* Buttons */
         .btn-group {
@@ -147,34 +142,32 @@
         .btn {
             background: var(--btn-bg);
             color: var(--text-main);
-            padding: 16px 32px;
-            border-radius: 14px;
+            padding: 18px 36px;
+            border-radius: 16px;
             text-decoration: none;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 12px;
             border: 1px solid var(--btn-border);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .btn:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        .btn svg {
-            width: 22px;
-            height: 22px;
-        }
+        .btn svg { width: 22px; height: 22px; }
     </style>
 </head>
 <body>
 
-    <div class="nav-wrapper animate delay-1">
+    <div class="nav-wrapper animate delay-nav">
         <nav class="top-nav">
             <img src="pfp.png" alt="logo">
             <a href="#" class="nav-link">Commands</a>
@@ -186,14 +179,14 @@
     </div>
 
     <div class="container">
-        <div class="hero animate delay-2">
+        <div class="hero animate delay-hero">
             <img src="pfp.png" alt="bolt" class="pfp">
             <h1 class="brand">bolt</h1>
         </div>
 
-        <p class="stats animate delay-3">Sustaining <b>412</b> users across <b>4</b> guilds.</p>
+        <p class="stats animate delay-stats">Sustaining <b>412</b> users across <b>4</b> guilds.</p>
 
-        <div class="btn-group animate delay-4">
+        <div class="btn-group animate delay-btns">
             <a href="#" class="btn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                 Invite
