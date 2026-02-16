@@ -6,6 +6,7 @@
     <title>bolt | active</title>
     <style>
         :root {
+            /* Default "Vibrant" Dark Mode */
             --bg-1: #080a0f;
             --bg-2: #1a1e26;
             --bg-3: #3b4471; 
@@ -14,9 +15,20 @@
             --text-main: #ffffff;
             --text-muted: #b0b0b0;
             --nav-bg: rgba(0, 0, 0, 0.6);
+            --transition-speed: 0.6s;
         }
 
-        /* 1. Ultra-Dynamic Background */
+        /* Midnight Mode Override */
+        [data-theme="midnight"] {
+            --bg-1: #000000;
+            --bg-2: #050505;
+            --bg-3: #111111;
+            --bg-4: #0a0a0a;
+            --accent-glow: rgba(255, 255, 255, 0.2);
+            --text-muted: #666666;
+            --nav-bg: rgba(255, 255, 255, 0.05);
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -30,7 +42,8 @@
             overflow: hidden;
             background: linear-gradient(-45deg, var(--bg-1), var(--bg-4), var(--bg-3), var(--bg-2));
             background-size: 400% 400%;
-            animation: hyperFlow 4s ease-in-out infinite, bgPulse 10s ease-in-out infinite;
+            animation: hyperFlow 4s ease-in-out infinite;
+            transition: background var(--transition-speed) ease;
         }
 
         @keyframes hyperFlow {
@@ -39,12 +52,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        @keyframes bgPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        /* 2. Expanding Navbar Logic */
+        /* Navbar Styling */
         .nav-container {
             position: absolute;
             top: 30px;
@@ -63,92 +71,47 @@
             align-items: center;
             justify-content: space-between;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            
-            /* Compact State: Visible pfp and discord */
             width: 110px; 
-            overflow: hidden;
-            transition: width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        padding 0.5s ease;
-            white-space: nowrap;
+            transition: width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
         }
 
-        .navbar:hover {
-            width: 480px; /* Expands to show links */
-            padding: 10px 25px;
-        }
+        .navbar:hover { width: 480px; padding: 10px 25px; }
 
-        .nav-logo {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            transition: transform 0.6s ease;
-        }
-
-        .navbar:hover .nav-logo { transform: rotate(360deg); }
-
-        /* Links hidden by default, slide in on hover */
         .nav-links {
             display: flex;
             gap: 20px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
             opacity: 0;
             width: 0;
-            transform: translateY(10px);
-            transition: opacity 0.3s ease, transform 0.4s ease, width 0.6s ease;
             pointer-events: none;
+            transition: opacity 0.3s ease, width 0.6s ease;
             overflow: hidden;
         }
 
-        .navbar:hover .nav-links {
-            opacity: 1;
-            width: auto;
-            transform: translateY(0);
-            pointer-events: auto;
-            margin: 0 20px;
+        .navbar:hover .nav-links { opacity: 1; width: auto; pointer-events: auto; margin: 0 20px; }
+
+        .nav-item { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--nav-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+            z-index: 200;
         }
 
-        .nav-item {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
+        .theme-toggle:hover { transform: scale(1.1) rotate(15deg); }
 
-        .nav-item:hover {
-            color: #fff;
-            text-shadow: 0 0 8px var(--accent-glow);
-        }
-
-        .discord-icon {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            color: var(--text-main);
-            transition: transform 0.3s ease, filter 0.3s ease;
-        }
-
-        .navbar:hover .discord-icon {
-            transform: scale(1.1);
-            filter: drop-shadow(0 0 5px var(--accent-glow));
-        }
-
-        /* 3. Main Content & Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
-
-        .main-wrapper {
-            animation: float 5s ease-in-out infinite;
-            text-align: center;
-            z-index: 10;
-        }
+        /* Main Content */
+        .main-wrapper { text-align: center; z-index: 10; transition: transform 0.5s ease; }
 
         .brand {
             font-size: 6rem;
@@ -160,20 +123,9 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: shine 3s linear infinite;
-            filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));
         }
 
         @keyframes shine { to { background-position: 200% center; } }
-
-        .pfp {
-            width: 140px;
-            height: 140px;
-            border-radius: 35px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .pfp:hover { transform: rotate(10deg) scale(1.1); }
 
         .btn {
             background: rgba(255, 255, 255, 0.05);
@@ -184,50 +136,75 @@
             text-decoration: none;
             font-weight: 700;
             border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: inline-block;
             margin: 10px;
+            transition: 0.3s;
         }
 
-        .btn:hover {
-            transform: scale(1.1);
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 30px var(--accent-glow);
+        .btn:hover { transform: translateY(-5px); box-shadow: 0 0 20px var(--accent-glow); }
+
+        /* Flash Animation on Switch */
+        .theme-flash {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: white;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        @keyframes flashEffect {
+            0% { opacity: 0.5; }
+            100% { opacity: 0; }
         }
     </style>
 </head>
 <body>
 
+    <div id="flash" class="theme-flash"></div>
+
     <header class="nav-container">
         <nav class="navbar">
-            <img src="pfp.png" alt="logo" class="nav-logo">
-            
+            <img src="pfp.png" alt="logo" style="width:30px; border-radius:50%;">
             <div class="nav-links">
                 <a href="#" class="nav-item">Home</a>
                 <a href="#" class="nav-item">Commands</a>
-                <a href="#" class="nav-item">Premium</a>
                 <a href="#" class="nav-item">Support</a>
             </div>
-
-            <a href="#" class="discord-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.196.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.076.076 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-            </a>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.196.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.076.076 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
         </nav>
     </header>
 
     <div class="main-wrapper">
-        <div class="hero">
-            <img src="pfp.png" alt="bolt" class="pfp">
-            <h1 class="brand">bolt</h1>
-        </div>
-        <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 30px;">
-            Sustaining <b style="color:white">412</b> users across <b style="color:white">4</b> guilds.
-        </p>
+        <h1 class="brand">bolt</h1>
+        <p style="color:var(--text-muted)">Sustaining 412 users across 4 guilds.</p>
         <div class="btn-group">
-            <a href="#" class="btn">Invite Bot</a>
+            <a href="#" class="btn">Invite</a>
             <a href="#" class="btn">Commands</a>
         </div>
     </div>
 
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <svg id="theme-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </button>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const flash = document.getElementById('flash');
+            
+            // Trigger Flash Animation
+            flash.style.animation = 'none';
+            flash.offsetHeight; /* trigger reflow */
+            flash.style.animation = 'flashEffect 0.4s ease-out';
+
+            // Swap Theme
+            if (body.getAttribute('data-theme') === 'midnight') {
+                body.removeAttribute('data-theme');
+            } else {
+                body.setAttribute('data-theme', 'midnight');
+            }
+        }
+    </script>
 </body>
 </html>
